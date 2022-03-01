@@ -9,6 +9,8 @@ import requests
 """ The first API """
 url = "https://youtube-to-mp32.p.rapidapi.com/api/yt_to_mp3"
 
+""" If you are using API link , do not change the following  lines
+But if you are using a youtube link ,comment from line 14 till 21 """
 querystring = {"video_id":"edPREMPZ5RA"}
 
 headers = {
@@ -29,7 +31,7 @@ headers2 = {
     'x-rapidapi-key': "7fd28c8244msh192131f69ff095ep140a0ajsn0a5f135310eb"
     }
 
-response2 = requests.request("GET", url, headers=headers)
+response2 = requests.request("GET", url2, headers=headers2)
 
 data2 = response2.json()
 print(data2)
