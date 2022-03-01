@@ -35,7 +35,7 @@ headers2 = {
 response2 = requests.request("GET", url2, headers=headers2)
 
 data2 = response2.json()
-print(data2)
+#print(data2)
 
 yt = YouTube(url)
 
