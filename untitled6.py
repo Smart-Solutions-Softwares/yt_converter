@@ -7,11 +7,12 @@ import os
 import requests
 
 """ The first API """
+""" Change the following link """
 url = "https://youtube-to-mp32.p.rapidapi.com/api/yt_to_mp3"
 
 """ If you are using API link , do not change the following  lines
-But if you are using a youtube link ,comment from line 14 till 21 """
-querystring = {"video_id":"edPREMPZ5RA"}
+But if you are using a youtube link ,uncomment from line 15 till 24 """
+"""querystring = {"video_id":"edPREMPZ5RA"}
 
 headers = {
     'x-rapidapi-host': "youtube-to-mp32.p.rapidapi.com",
@@ -20,7 +21,7 @@ headers = {
 
 response = requests.request("GET", url, headers=headers, params=querystring)
 
-data = response.json()
+data = response.json()"""
 
 """ The second API """
 
@@ -36,7 +37,7 @@ response2 = requests.request("GET", url2, headers=headers2)
 data2 = response2.json()
 print(data2)
 
-yt = YouTube(data["Full_Video_Link"])
+yt = YouTube(url)
 
 try:
   print("Downloading.......")
