@@ -2,14 +2,19 @@ from flask import Flask, render_template, request, url_for, redirect, send_file,
 from pytube import YouTube
 from io import BytesIO
 import os
-
-
 import youtube_dl
 
-def run():
-    video_url = input("please enter youtube video url:")
+app = Flask(__name__)
+
+@app.route('/')
+def my_form():
+    return render_template('my-form.html')
+
+@app.route('/', methods=['POST'])
+def my_form_post():
+    text = request.form['text']
     video_info = youtube_dl.YoutubeDL().extract_info(
-        url = video_url,download=False
+        url = text,download=False
     )
     filename = f"{video_info['title']}.mp3"
     options={
@@ -23,5 +28,6 @@ def run():
 
     print("Download complete... {}".format(filename))
 
-if __name__=='__main__':
-    run()
+    return "Downloaded Successfully"
+
+
