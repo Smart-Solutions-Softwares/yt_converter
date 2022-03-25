@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import youtube_dl
+import src.yt as yt
 
 app = Flask(__name__)
 
@@ -12,20 +12,8 @@ def my_form():
 @app.route('/download', methods=['POST'])
 def my_form_post():
     yt_url = request.form['text']
-    y = {'nocheckcertificate': True}
-
-    video_info = youtube_dl.YoutubeDL(y).extract_info(
-        url=yt_url, download=False)
-    mp3_filename = f"{video_info['title']}.mp3"
-    options = {
-        'format': 'bestaudio/best',
-        'keepvideo': False,
-        'outtmpl': mp3_filename,
-        'nocheckcertificate': True
-    }
-
-    youtube_dl.YoutubeDL(options).download([yt_url])
-
+    vid_format = request.form['format']
+    yt.dl_yt(yt_url, vid_format)
     print("Download complete...")
 
     return "Downloaded Successfully"
