@@ -4,7 +4,7 @@
 <input id="title" type="hidden" value="Download - YouTube to MP3/MP4"/>
 <div class="container">
     <div class="wrapper">
-        <div class="title"><span>YouTube Converter</span></div>
+        <div class="title"><span>YouTube to MP3/MP4</span></div>
             <div class="row">
                 <center>
                     {% if title == '' %}
@@ -21,10 +21,11 @@
                         <p>{{title | replace("_", " ") | title }}.{{format}}</p>
                     </a>
                     <br><br>
-                    <p style="font-size:x-small;"><i>Please download file within 5 minutes, or you will have to download again.</i></p>
+                    <p style="font-size:x-small;"><i>Please download file within 10 minutes, or you will have to download again.</i></p>
                     <p style="font-size:xx-small;">These <a style="font-size:xx-small;" href="https://www.flaticon.com/free-icons/download" title="Download icons">Download</a> and
                         <a style="font-size:xx-small;" href="https://www.flaticon.com/free-icons/{{format}}" title="{{format}} icons">{{format | title}}</a>
                         icons are created by Freepik - Flaticon</p>
+                    <br>
                     {% endif %}
                 </center>
             </div>

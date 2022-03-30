@@ -11,12 +11,11 @@ def my_form():
     return render_template('my-form.html')
 
 
-@app.route('/download', methods=['POST'])
+@app.route('/download', methods=['GET','POST'])
 def my_form_post():
-    yt_url = request.form['link']
-    vid_format = request.form['format']
-
-    if len(yt_url) > 0 and len(vid_format) > 0:
+    if request.method == 'POST':
+        yt_url = request.form['link']
+        vid_format = request.form['format']
         output = yt.dl_yt(yt_url, vid_format)
         logging.info("Download complete...")
         x = threading.Thread(target=yt.thread_delete_file, args=(f"static/{output[1]}/{output[0]}.{output[1]}",))

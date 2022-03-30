@@ -114,3 +114,7 @@ form .button input:hover .input:hover{
 form .signup-link a:hover{
   text-decoration: underline;
 }
+
+#message{
+    display:none;
+}

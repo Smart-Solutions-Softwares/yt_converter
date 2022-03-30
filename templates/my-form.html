@@ -3,8 +3,8 @@
 {% block content %}
 <div class="container">
     <div class="wrapper">
-        <div class="title"><span>YouTube Converter</span></div>
-        <form action = "/download" method="POST">
+        <div class="title"><span>YouTube to MP3/MP4</span></div>
+        <form id="yt_form" action = "/download" method="POST">
             <div class="row">
                 <input name="link" type="text" placeholder="Paste YouTube Link Here" required>
             </div>
@@ -19,10 +19,21 @@
 
             </div>
             <div class="row button">
-                <input  type="submit" value="Convert">
+                <input id="convert" type="submit" value="Convert">
             </div>
 
         </form>
+        <div id="message" class="wrapper">
+            <div class="row">
+                <center>
+                    <video width="256" height="256" preload="none" style="background: transparent  url('https://cdn-icons-png.flaticon.com/512/6172/6172518.png') 50% 50% / fit no-repeat;" autoplay="autoplay" loop="true" muted="muted" playsinline="">
+                        <source src="https://cdn-icons-mp4.flaticon.com/512/6172/6172518.mp4" type="video/mp4">
+                    </video>
+                    <br>
+                    <p id="wait_message" style="display:none">This might take a while. Wait time depends on your download speed.</p>
+                </center>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

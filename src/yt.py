@@ -13,7 +13,7 @@ def dl_yt(url, output):
     video_info = youtube_dl.YoutubeDL(y).extract_info(
         url=url, download=False)
     if not os.path.exists(f"static/{output}"):
-        os.makedirs(output)
+        os.makedirs(f"static/{output}")
     revised_title = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title']).replace(" ", "_")
     filename = f"static/{output}/{revised_title}.{output}"
     options = {
