@@ -1,5 +1,8 @@
 import os, re
 import youtube_dl
+import time
+
+DELETE_DELAY = 600
 
 
 def dl_yt(url, output):
@@ -9,15 +12,24 @@ def dl_yt(url, output):
 
     video_info = youtube_dl.YoutubeDL(y).extract_info(
         url=url, download=False)
-    if not os.path.exists(output):
+    if not os.path.exists(f"static/{output}"):
         os.makedirs(output)
     revised_title = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title']).replace(" ", "_")
-    filename = f"{output}/{revised_title}.{output}"
+    filename = f"static/{output}/{revised_title}.{output}"
     options = {
         'format': f'best{typ[output]}',
         'keepvideo': frmt[output],
         'outtmpl': filename,
         'nocheckcertificate': True
     }
+    youtube_dl.YoutubeDL(options).download([url])
+    return revised_title, output
 
-    return youtube_dl.YoutubeDL(options).download([url])
+
+def thread_delete_file(file):
+    time.sleep(DELETE_DELAY)
+    try:
+        os.remove(file)
+    except (FileNotFoundError, IsADirectoryError):
+        pass
+

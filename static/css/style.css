@@ -50,9 +50,14 @@ body{
   padding-left: 10px;
   border-radius: 5px;
   border: 1px solid lightgrey;
-  font-size: 16px;
+  font-size: 12px;
   transition: all 0.3s ease;
   background-color: #d0021b;
+  color: #fff;
+
+}
+.wrapper .row a{
+    color: #d0021b;
 }
 form .row input:focus .input:focus{
   border-color: #d0021b;
