@@ -11,10 +11,19 @@ def my_form():
     return render_template('my-form.html')
 
 
-@app.route('/download', methods=['GET','POST'])
+@app.route('/download', methods=['GET', 'POST'])
 def my_form_post():
     if request.method == 'POST':
-        yt_url = request.form['link']
+        yt_url = ''
+        yt_url_raw = request.form['link']
+        if 'shorts' in yt_url_raw:
+            yt_vid_id = yt_url_raw.split("/shorts/")[1]
+            print(yt_vid_id)
+            yt_url = f"https://www.youtube.com/watch?v={yt_vid_id}"
+        elif '&' in yt_url_raw:
+            yt_url = yt_url_raw.split("&")[0]
+        else:
+            yt_url = yt_url_raw
         vid_format = request.form['format']
         output = yt.dl_yt(yt_url, vid_format)
         logging.info("Download complete...")
