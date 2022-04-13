@@ -1,6 +1,6 @@
 $(document).ready( function(){
   $("#convert").click(function(){
-  if ($("#link").val().trim().length == 0) {
+  if ($.trim($("#link").val()).length == 0) {
     $("#message").toggle(1000,'linear');
     $("#yt_form").toggle(1000,'linear');
     x=0;
@@ -13,9 +13,14 @@ $(document).ready( function(){
  });//end click #convert
  $("#dl").click(function(){
     window.setTimeout(function() {
-        window.location.href = 'https://youtube-mp3-mp4.com';
+        window.location.href = '/';
     }, 6000);
  });//end click #dl
+ if ($("#download").length) {
+    window.setTimeout(function() {
+        window.location.href = '/';
+    }, 6000);
+ };//end #download
 });//end ready
 
 
