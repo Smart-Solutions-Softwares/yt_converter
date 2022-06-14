@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<input id="title" type="hidden" value="Download - YouTube to MP3/MP4"/>
+<input id="download" type="hidden" value="True"/>
+<div class="container">
+    <div class="wrapper">
+            <div class="row">
+                <center>
+                    {% if title == '' %}
+                     <p>- No download yet -</p><hr>
+                    {% else %}
+                    <br>
+                    <a download id="dl" href="static/{{format}}/{{title}}.{{format}}">
+                        <span style="text-decoration:none;color:#000">Click to download</span>
+                        <br><br>
+                        <img style="height:50px;width:50px;" src="static/img/download.gif"/>
+                        <img style="height:100px;width:100px;" src="static/img/{{format}}.png"/>
+                        <img style="height:50px;width:50px;" src="static/img/download.gif"/>
+                        <br>
+                        <p>{{title | replace("_", " ") | title }}.{{format}}</p>
+                    </a>
+                    <br>
+                    <div class="row button">
+                        <a href="/">
+                            <input type="button" value="Convert another" />
+                        </a>
+                    </div>
+                    <br>
+                    <p style="font-size:x-small;"><i>Please download file within 10 minutes, or you will have to download again.</i></p>
+                    <p style="font-size:xx-small;">These <a style="font-size:xx-small;" href="https://www.flaticon.com/free-icons/download" title="Download icons">Download</a> and
+                        <a style="font-size:xx-small;" href="https://www.flaticon.com/free-icons/{{format}}" title="{{format}} icons">{{format | title}}</a>
+                        icons are created by Freepik - Flaticon</p>
+                    <br>
+                    {% endif %}
+                </center>
+            </div>
+    </div>
+</div>
+{% endblock %}

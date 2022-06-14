@@ -1,27 +1,40 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <title>Login Form | CodingLab</title> -->
-        <link rel="stylesheet" href="static/css/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
-    </head>
-   <body>
-    <div class="container">
-        <div class="wrapper">
-          <div class="title"><span>YouTube-Mp3 Converter</span></div>
-          <form action = "/download" method="POST">
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="wrapper">
+        <form id="yt_form" action = "/download" method="POST">
             <div class="row">
-              <input name="text" type="text" placeholder="YouTube Link" required>
+                <input name="link" type="text" placeholder="Paste YouTube Link Here" required>
+            </div>
+            <div class="row">
+                <center>
+                    <span>Choose output format: </span>
+                    <select name="format" id="format">
+                        <option value="mp3">MP3</option>
+                        <option value="mp4">MP4</option>
+                    </select>
+                </center>
+
             </div>
             <div class="row button">
-              <input  type="submit" value="Convert">
+                <center>
+                    <input id="convert" type="submit" value="Convert">
+                </center>
             </div>
-    
-            </form>
-        </div>
-      </div>
-   </body>
 
-  </html>
+        </form>
+        <div id="message" class="wrapper">
+            <div class="row">
+                <center>
+                    <video width="256" height="256" preload="none" style="background: transparent  url('https://cdn-icons-png.flaticon.com/512/6172/6172518.png') 50% 50% / fit no-repeat;" autoplay="autoplay" loop="true" muted="muted" playsinline="">
+                        <source src="https://cdn-icons-mp4.flaticon.com/512/6172/6172518.mp4" type="video/mp4">
+                    </video>
+                    <br>
+                    <p id="wait_message" style="display:none">This might take a while. Wait time depends on your download speed.<br></p>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

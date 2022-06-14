@@ -1,3 +1,5 @@
 flask
 youtube_dl
 moviepy
+pytz
+flask_mail
