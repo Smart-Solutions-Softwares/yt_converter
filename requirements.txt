@@ -1,4 +1,5 @@
 flask
-flask_mail
 youtube_dl
 moviepy
+pytz
+flask_mail

@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 from pytz import timezone
 tz = timezone('US/Eastern')
-
+import logging
 
 DELETE_DELAY = 30
 
@@ -36,6 +36,7 @@ def dl_yt(url, output):
 
 def thread_delete_file(file):
     time.sleep(DELETE_DELAY)
+    logging.info(f"=========={file}===========")
     print(f"=========={file}===========")
     try:
         os.remove(file)
