@@ -30,9 +30,7 @@ def my_form_post():
                 yt_url = yt_url_raw
             vid_format = request.form['format']
             output = yt.dl_yt(yt_url, vid_format)
-            logging.info("Download complete...")
-            x = threading.Thread(target=yt.thread_delete_file, args=(f"static/{output[1]}/{output[0]}.{output[1]}",))
-            x.start()
+            logging.info("Download complete..."+output[0])
             return render_template('download.html', title=output[0], format=output[1])
         except Exception as err:
             logging.info("SANDY LOGS:" + str(err))

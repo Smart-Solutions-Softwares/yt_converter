@@ -14,12 +14,12 @@ $(document).ready( function(){
  $("#dl").click(function(){
     window.setTimeout(function() {
         window.location.href = '/';
-    }, 6000);
+    }, 180000);
  });//end click #dl
  if ($("#download").length) {
     window.setTimeout(function() {
         window.location.href = '/';
-    }, 6000);
+    }, 180000);
  };//end #download
 });//end ready
 
