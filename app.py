@@ -31,7 +31,7 @@ def my_form_post():
             vid_format = request.form['format']
             output = yt.dl_yt(yt_url, vid_format)
             logging.info("Download complete...")
-            x = threading.Thread(target=yt.thread_delete_file, args=(f"static/{output[1]}/{output[0]}.{output[1]}",))
+            x = threading.Thread(target=thread_delete_file, args=(f"static/{output}/{revised_title}.{output}",))
             x.start()
             return render_template('download.html', title=output[0], format=output[1])
         except Exception as err:

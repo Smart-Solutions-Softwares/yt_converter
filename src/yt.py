@@ -3,10 +3,12 @@ import youtube_dl
 import time
 from datetime import datetime
 from pytz import timezone
-tz = timezone('US/Eastern')
 import logging
+import threading
 
-DELETE_DELAY = 30
+tz = timezone('US/Eastern')
+
+DELETE_DELAY = 300
 
 
 def dl_yt(url, output):
@@ -18,7 +20,8 @@ def dl_yt(url, output):
         url=url, download=False)
     if not os.path.exists(f"static/{output}"):
         os.makedirs(f"static/{output}")
-    revised_title = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title']).replace(" ", "_")
+    revised_title1 = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title'].strip()).replace(" ", "_")
+    revised_title = re.sub(r"\_{2,}", "_", revised_title1)
     filename = f"static/{output}/{revised_title}.{output}"
     csv_file = f"static/{output}/{output}.csv"
     options = {
@@ -31,6 +34,9 @@ def dl_yt(url, output):
     f = open(csv_file, "a")
     f.write(f"{datetime.now(tz)},{output},{revised_title},{url}\n")
     f.close()
+    x = threading.Thread(target=thread_delete_file, args=(f"static/{output}/{revised_title}.{output}",))
+    x.start()
+    print(f"static/{output}/{revised_title}.{output}")
     return revised_title, output
 
 
