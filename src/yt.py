@@ -20,7 +20,7 @@ def dl_yt(url, output):
         url=url, download=False)
     if not os.path.exists(f"static/{output}"):
         os.makedirs(f"static/{output}")
-    revised_title1 = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title'].strip()).replace(" ", "_")
+    revised_title1 = re.sub(r"[^a-zA-Z0-9 ]", "", video_info['title']).strip().replace(" ", "_")
     revised_title = re.sub(r"\_{2,}", "_", revised_title1)
     filename = f"static/{output}/{revised_title}.{output}"
     csv_file = f"static/{output}/{output}.csv"
@@ -48,4 +48,8 @@ def thread_delete_file(file):
         os.remove(file)
     except (FileNotFoundError, IsADirectoryError) as err:
         print(err)
+        f2 = open("logs_thread.csv", "a")
+        f2.write(f"{datetime.now(tz)},{file},{str(err)}\n")
+        
+        f2.close()
 

@@ -19,7 +19,9 @@ def my_form_post():
     if request.method == 'POST':
         try:
             yt_url = ''
-            yt_url_raw = request.form['link']
+            yt_url_raw = request.form['link'].strip()
+            f = open("logs.csv", "a")
+            f.write(f"{datetime.now(tz)},{yt_url_raw}\n")
             if 'shorts' in yt_url_raw:
                 yt_vid_id = yt_url_raw.split("/shorts/")[1]
                 print(yt_vid_id)
@@ -35,9 +37,10 @@ def my_form_post():
         except Exception as err:
             logging.info("SANDY LOGS:" + str(err))
             f = open("logs.csv", "a")
-            f.write(f"{datetime.now(tz)},{str(err)}\n")
+            f.write(f"{datetime.now(tz)},{yt_url_raw},{str(err)}\n")
             f.close()
             return redirect('/')
+        f.close()
     else:
         return redirect('/')
 
