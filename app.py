@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect
 import src.yt as yt
+
 import threading
 import logging
+import re
 from datetime import datetime
 from pytz import timezone
 tz = timezone('US/Eastern')
@@ -17,35 +19,36 @@ def my_form():
 @app.route('/download', methods=['GET', 'POST'])
 def my_form_post():
     if request.method == 'POST':
-        try:
-            yt_url = ''
-            yt_url_raw = request.form['link'].strip()
-            f = open("logs.csv", "a")
-            f.write(f"{datetime.now(tz)},{yt_url_raw}\n")
-            if 'shorts' in yt_url_raw:
-                yt_vid_id = yt_url_raw.split("/shorts/")[1]
-                print(yt_vid_id)
-                yt_url = f"https://www.youtube.com/watch?v={yt_vid_id}"
-            elif '&' in yt_url_raw:
-                yt_url = yt_url_raw.split("&")[0]
-            else:
-                yt_url = yt_url_raw
-            vid_format = request.form['format']
-            output = yt.dl_yt(yt_url, vid_format)
-            logging.info("Download complete...")
-            x = threading.Thread(target=thread_delete_file, args=(f"static/{output}/{revised_title}.{output}",))
-            x.start()
-            return render_template('download.html', title=output[0], format=output[1])
-        except Exception as err:
-            logging.info("SANDY LOGS:" + str(err))
-            f = open("logs.csv", "a")
-            f.write(f"{datetime.now(tz)},{yt_url_raw},{str(err)}\n")
-            f.close()
-            return redirect('/')
+        f = open("logs.csv", "a")
+        for x in range(yt.MAX_RETRY):
+            try:
+                yt_url_format = ['(http|https):\/\/[a-zA-Z0-9.]+\/watch\?v=([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*',
+                                 '(http|https):\/\/[a-zA-Z0-9.]+\/shorts\/([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*',
+                                 '(http|https):\/\/[a-zA-Z0-9.]+\/([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*']
+                yt_url = ''
+                yt_url_raw = request.form['link'].strip()
+                for i in yt_url_format:
+                    match = re.match(i, yt_url_raw)
+                    if match:
+                        yt_vid_id = match.group(2)
+                        yt_url = f"https://www.youtube.com/watch?v={yt_vid_id}"
+                        break
+                vid_format = request.form['format']
+                output = yt.dl_yt(yt_url, vid_format)
+                logging.info("Download complete...")
+                print("Download complete...")
+                f.write(f"{datetime.now(tz)},{yt_url_raw},{yt_url},{output}\n")
+                f.close()
+                return render_template('download.html', title=output[0], format=output[1])
+            except Exception as err:
+                logging.info("SANDY LOGS:" + str(err))
+                f.write(f"{datetime.now(tz)},{yt_url_raw},{yt_url},{str(err)}\n")
         f.close()
+        x = threading.Thread(target=yt.thread_delete_file, args=(f"static/{output}/{output[0]}.{output[1]}.part",))
+        x.start()
+        return redirect('/')
     else:
         return redirect('/')
-
 
 
 if __name__ == "__main__":

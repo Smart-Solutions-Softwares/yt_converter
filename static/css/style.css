@@ -116,13 +116,13 @@ form .button input:hover .input:hover{
 .wrapper .button input{
   color: #fff;
   max-width:200px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
   padding-left: 0px;
   background: #d0021b;
   border: 1px solid #d0021b;
   cursor: pointer;
-  padding: 10px;
+  padding: 8px;
 }
 .wrapper ul li{
     list-style-type: none;
