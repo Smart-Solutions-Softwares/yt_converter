@@ -13,6 +13,34 @@ DELETE_DELAY = 180
 MAX_RETRY = 3
 
 
+def convert_yt(yt_url_raw, vid_format):
+    f = open("logs.csv", "a")
+    for x in range(MAX_RETRY):
+        try:
+            yt_url_format = ['(http|https):\/\/[a-zA-Z0-9.]+\/watch\?v=([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*',
+                             '(http|https):\/\/[a-zA-Z0-9.]+\/shorts\/([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*',
+                             '(http|https):\/\/[a-zA-Z0-9.]+\/([a-zA-Z0-9\_\-]+)[^a-zA-Z0-9_\-]*']
+            yt_url = ''
+            for i in yt_url_format:
+                match = re.match(i, yt_url_raw)
+                if match:
+                    yt_vid_id = match.group(2)
+                    yt_url = f"https://www.youtube.com/watch?v={yt_vid_id}"
+                    break
+            output = dl_yt(yt_url, vid_format)
+            logging.info("Download complete...")
+            print("Download complete...")
+            f.write(f"{datetime.now(tz)},{yt_url_raw},{yt_url},{output}\n")
+            f.close()
+            return output
+        except Exception as err:
+            logging.info("SANDY LOGS:" + str(err))
+            f.write(f"{datetime.now(tz)},{yt_url_raw},{yt_url},{str(err)}\n")
+    f.close()
+    x = threading.Thread(target=thread_delete_file, args=(f"static/{output}/{output[0]}.{output[1]}.part",))
+    x.start()
+
+
 def dl_yt(url, output):
     datetime_started = datetime.now(tz)
     frmt = {'mp3': False, 'mp4': True}
